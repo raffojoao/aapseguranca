@@ -2,6 +2,9 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -10,15 +13,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import java.awt.GridLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.List;
 import java.nio.charset.StandardCharsets;
@@ -26,7 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 
-public class Window extends JFrame{
+public class Main extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -39,7 +37,7 @@ public class Window extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Window frame = new Window();
+					Main frame = new Main();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,7 +47,7 @@ public class Window extends JFrame{
 	}
 
 	
-	public Window() {
+	public Main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -97,23 +95,11 @@ public class Window extends JFrame{
 	
 	public String generateHash(String input){
         try {
-            //Instacia um objeto MessageDigest com o tipo de algoritmo que queremos usar (MD5)
             MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(input.getBytes());
-
-            //Gera o hash como um array de byte
-            byte[] messageDigest = md.digest();
-
-            //Converte o array em BigInteger
-            BigInteger no = new BigInteger(1, messageDigest);
-
-            //Converte em uma string
-            String hashText = no.toString(16);
-            while (hashText.length() < 32) {
-                hashText = "0" + hashText;
-            }
-            return hashText;
-        } catch (NoSuchAlgorithmException e ){
+            byte[] byteHash = md.digest(input.getBytes("UTF-8"));
+            String stringHash = new BigInteger(1, byteHash).toString(16);
+            return stringHash;
+        } catch (Exception e ){
             throw new RuntimeException();
         }
     }
@@ -137,7 +123,7 @@ public class Window extends JFrame{
 	      }
 	      
 	    } catch (IOException e) {
-	      e.printStackTrace();
+	     System.out.println(e.getMessage());
 	    }
 	    
 		return true;
@@ -153,7 +139,6 @@ public class Window extends JFrame{
 
         String hash = generateHash(password);
         
-//        User user = new User(username, hash);
         
         try {
         	FileWriter writer = new FileWriter(filePath, true);
@@ -186,7 +171,6 @@ public class Window extends JFrame{
 	    } catch (IOException e) {
 	      e.printStackTrace();
 	    }
-    	
     }
 
 }
