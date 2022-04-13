@@ -106,7 +106,7 @@ public class BruteCrack
 		List<String> lines = Collections.emptyList();
 		try {
 			lines =
-				       Files.readAllLines(Paths.get("userList.txt"), StandardCharsets.UTF_8);
+				       Files.readAllLines(Paths.get("userList2.txt"), StandardCharsets.UTF_8);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

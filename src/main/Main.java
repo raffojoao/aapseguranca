@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,6 +19,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SecureRandom;
+import java.security.spec.KeySpec;
 import java.util.Collections;
 import java.util.List;
 import java.nio.charset.StandardCharsets;
@@ -30,7 +36,7 @@ public class Main extends JFrame{
 	private JPanel contentPane;
 	private JTextField inputUsername;
 	private JTextField inputPassword;
-	private String filePath = new String("userList.txt");
+	private String filePath = new String("userList2.txt");
 
 	
 	public static void main(String[] args) {
@@ -93,12 +99,26 @@ public class Main extends JFrame{
 		panelButtons.add(btnAuthenticate);
 	}
 	
+	public  String getSalt() 
+		    throws NoSuchAlgorithmException, NoSuchProviderException 
+		{
+		    SecureRandom sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
+		    byte[] salt = new byte[16];
+		    sr.nextBytes(salt);
+		    return salt.toString();
+		}
+	
 	public String generateHash(String input){
         try {
+        	String salt = getSalt();
+        	
             MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(salt.getBytes());
+            
             byte[] byteHash = md.digest(input.getBytes("UTF-8"));
             String stringHash = new BigInteger(1, byteHash).toString(16);
             return stringHash;
+            
         } catch (Exception e ){
             throw new RuntimeException();
         }

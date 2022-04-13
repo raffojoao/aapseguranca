@@ -1,0 +1,4 @@
+username=john, password=2c2a839e2a71f96186ccac3ae17018bf
+username=paul, password=11af19a891a34881a7e46679ad688c43
+username=ring, password=c76e0ece6dedcaf18519c19d983ed23
+username=geor, password=e9a95ccc9a9c0a9c11bf303d650db9ea
