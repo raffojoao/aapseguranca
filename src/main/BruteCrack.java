@@ -1,6 +1,12 @@
 package main;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
+import java.util.Collections;
+import java.util.List;
 
 public class BruteCrack
 {
@@ -97,7 +103,18 @@ public class BruteCrack
 	
 	public static void main(String args[])
 	{
-		if(args.length > 0)
+		List<String> lines = Collections.emptyList();
+		try {
+			lines =
+				       Files.readAllLines(Paths.get("userList.txt"), StandardCharsets.UTF_8);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		long startTotal = System.nanoTime();
+		long endTotal;
+		
+		for(String line: lines)
 		{
 			try
 			{
@@ -107,16 +124,19 @@ public class BruteCrack
 				String answer;
 			
 				start = System.nanoTime();
-				answer = bc.crack(args[0]);
+				answer = bc.crack(line.substring(24));
 				end = System.nanoTime();
 			
 				System.out.println("Answer: " + answer);
-				System.out.println("Processing Time: " + ((end - start)/1000000000));
+				System.out.println("Processing Time: " + (((float)end - (float)start)/1000000000));
 			}
 			catch(Exception e)
 			{
 				System.out.println("Exception: " + e.toString());
 			}
 		}
+		endTotal =  System.nanoTime();
+		System.out.println("Total Processing Time: " + (((float)endTotal - (float)startTotal)/1000000000));
+		
 	}
 }

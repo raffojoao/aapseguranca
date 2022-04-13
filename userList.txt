@@ -1,1 +1,4 @@
-username=1111, password=934b535800b1cba8f96a5d72f72f1611
+username=john, password=81dc9bdb52d04dc20036dbd8313ed055
+username=paul, password=44f0b6432803b0e0822a36292ead944d
+username=ring, password=f22b21acbcefffaf075d2831b42510b3
+username=geor, password=f872677e5ba25a26650690fa3828b8da
